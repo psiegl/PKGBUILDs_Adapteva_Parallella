@@ -1,0 +1,17 @@
+pkgbase = crystax-ndk
+	pkgdesc = CrystaX NDK for Android native development
+	pkgver = 10.3.2
+	pkgrel = 1
+	url = http://crystax.net
+	arch = x86_64
+	license = GPL,
+	license = LGPL,
+	license = custom
+	provides = crystax-ndk
+	options = !strip
+	options = staticlibs
+	source = https://www.crystax.net/download/crystax-ndk-10.3.2-linux-x86_64.tar.xz
+	sha256sums = 7305b59a3cee178a58eeee86fe78ad7bef7060c6d22cdb027e8d68157356c4c0
+
+pkgname = crystax-ndk
+

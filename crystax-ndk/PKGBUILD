@@ -1,0 +1,25 @@
+# Maintainer: Mateusz Kaczanowski <kaczanowski.mateusz@gmail.com>
+pkgname='crystax-ndk'
+provides=('crystax-ndk')
+pkgver=10.3.2
+pkgrel=1
+pkgdesc="CrystaX NDK for Android native development"
+arch=('x86_64')
+url="http://crystax.net"
+license=('GPL', 'LGPL', 'custom')
+depends=()
+optdepends=()
+conflicts=()
+backup=()
+options=('!strip' 'staticlibs')
+source=("https://www.crystax.net/download/$pkgname-$pkgver-linux-x86_64.tar.xz")
+sha256sums=('7305b59a3cee178a58eeee86fe78ad7bef7060c6d22cdb027e8d68157356c4c0')
+
+package() {
+    install -d "$pkgdir/opt"
+    mv "$pkgname-${pkgver/_/}" "$pkgdir/opt/$pkgname"
+
+    # Fix broken permissions
+    chmod -R o=g "$pkgdir/opt/$pkgname"
+    find "$pkgdir/opt/$pkgname" -perm 744 -exec chmod 755 {} +
+}
