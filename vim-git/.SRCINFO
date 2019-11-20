@@ -19,7 +19,7 @@ pkgbase = vim-git
 
 pkgname = vim-git
 
-pkgname = vim-runtime-git
+pkgname = vim-git-runtime
 	pkgdesc = VIM: Vi IMproved (shared runtime)
 	optdepends = sh: support for some tools and macros
 	optdepends = python: demoserver example tool
