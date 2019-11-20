@@ -1,7 +1,7 @@
 # Maintainer: Egor Kovetskiy <e.kovetskiy@office.ngs.ru>
 # Maintainer: Mateusz Kaczanowski <kaczanowski.mateusz@gmail.com>
 pkgbase='vim-git'
-pkgname=('vim-git' 'vim-runtime-git')
+pkgname=('vim-git' 'vim-git-runtime')
 pkgver=10857.a07549008
 pkgrel=1
 pkgdesc="VIM: Vi IMproved"
@@ -51,7 +51,7 @@ build() {
     make
 }
 
-package_vim-runtime-git() {
+package_vim-git-runtime() {
   pkgdesc+=' (shared runtime)'
   optdepends=('sh: support for some tools and macros'
               'python: demoserver example tool'
