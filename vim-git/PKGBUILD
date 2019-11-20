@@ -1,4 +1,5 @@
 # Maintainer: Egor Kovetskiy <e.kovetskiy@office.ngs.ru>
+# Maintainer: Mateusz Kaczanowski <kaczanowski.mateusz@gmail.com>
 pkgbase='vim-git'
 pkgname=('vim-git' 'vim-runtime-git')
 pkgver=10857.a07549008
