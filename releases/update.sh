@@ -1,2 +1,3 @@
-rm -rf armv7h/mkaczanowski.db.tar.gz
-repo-add armv7h/mkaczanowski.db.tar.gz armv7h/*.pkg.tar.xz
+cd armv7h
+rm -rf mkaczanowski.*
+repo-add mkaczanowski.db.tar.gz *.pkg.tar.xz
