@@ -1,4 +1,5 @@
 # Maintainer: Hui Yiqun <huiyiqun@gmail.com>
+# Maintainer: Mateusz Kaczanowski <kaczanowski.mateusz@gmail.com>
 
 _pkgname=nginx
 pkgname=$_pkgname-rtmp

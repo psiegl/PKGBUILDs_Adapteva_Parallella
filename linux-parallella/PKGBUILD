@@ -1,8 +1,4 @@
-# Parallella
-# Maintainer: Kevin Mihelich <kevin@archlinuxarm.org>
-# Contributor: Scott Tincman <sctincman@gmail.com>
-
-buildarch=4
+# Maintainer: Mateusz Kaczanowski <kaczanowski.mateusz@gmail.com>
 
 pkgbase=linux-parallella
 _srcname=linux-5.4
