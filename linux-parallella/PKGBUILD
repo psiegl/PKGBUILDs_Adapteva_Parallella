@@ -5,39 +5,40 @@
 buildarch=4
 
 pkgbase=linux-parallella
-_commit=b5e745c04d44f8b3e1228e09d568d71a16a4965d
-_srcname=parallella-linux-${_commit}
 _kernelname=${pkgbase#linux}
 _desc="Parallella"
 pkgver=3.14.12
 pkgrel=2
-arch=('armv7h')
+arch=('armv7h' 'x86_64')
 url="https://github.com/parallella/parallella-linux"
 license=('GPL2')
 makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'uboot-tools' 'git')
 options=('!strip')
-source=("https://github.com/parallella/parallella-linux/archive/${_commit}.tar.gz"
-        '0001-kernel-add-support-for-gcc-5.patch'
-        '0002-ARM-8158-1-LLVMLinux-use-static-inline-in-ARM-ftrace.patch'
-        '0003-ARM-LLVMLinux-Change-extern-inline-to-static-inline-.patch'
-        'kernel-CVE-2016-0728.patch'
+source=("git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git"
+        '0001-kernel-add-epiphany-kconfig.patch'
+        '0002-kernel-add-epiphany-makefile.patch'
+        'epiphany.c'
+        'epiphany.h'
+        'epiphany_uapi.h'
         'config')
-sha256sums=('4b19478f7932294c92c749843c7f68c3d35deb28937f76f4154bec68f83076eb'
-            'caac03c6d5f8563c80ac7149565c78ee8e452b5a26b97142f98f5951d609eb1d'
-            'b2056fd871ce391de06cefdb71cdd82f21e4e12694492345e8b89c12d5186611'
-            '63cf874b765bb8981f15a83a53eb069ee2824f37dbbb4eedce63dbbde0bfb6f8'
-            'c11bf7442041f2ddaf6aea62b897c0753200aa64ca0e7b9f2c9700ea16326997'
-            '22ae77f1912b90b4efd38d1dbd417b35111c53bc2dc29c0e89ef17fb2577091b')
+sha256sums=('SKIP'
+            '51a02268729e38a9566f24e7087301030cdb199ca8582f3360d83fda47d51567'
+            '0df557a36cce828eb0dec398132fee5f5380aae409ca8b6029d1f110df0c9970'
+            '17f7a780c879e3b1f37eee907111160bb8d228ceefa295f1439c2a9f97b06f36'
+            '9e6cd80a98f25ec98582e2cd9352462898eae3c8422b1a65416056e08f37b1f1'
+            'efffd95b20a9a2099a9b32c5dbbef21c2e9bc27e70a238d7149d7340dd1d1c38'
+            '218c63393fe21645693a7ae0924b801579cabcae012b743af8aaad0973004b02')
 
 prepare() {
-  cd "${srcdir}/${_srcname}"
+  cd "${srcdir}/linux"
 
-  git apply ../0001-kernel-add-support-for-gcc-5.patch
-  git apply ../0002-ARM-8158-1-LLVMLinux-use-static-inline-in-ARM-ftrace.patch
-  git apply ../0003-ARM-LLVMLinux-Change-extern-inline-to-static-inline-.patch
-  git apply ../kernel-CVE-2016-0728.patch
+  git apply ../0001-kernel-add-epiphany-kconfig.patch
+  git apply ../0002-kernel-add-epiphany-makefile.patch
 
   cat "${srcdir}/config" > ./.config
+  cat "${srcdir}/epiphany.c" > ./drivers/misc/epiphany.c
+  cat "${srcdir}/epiphany.h" > ./drivers/misc/epiphany.h
+  cat "${srcdir}/epiphany_uapi.h" > ./include/uapi/misc/epiphany.h
 
   # add pkgrel to extraversion
   sed -ri "s|^(EXTRAVERSION =)(.*)|\1 -${pkgrel}|" Makefile
@@ -47,32 +48,12 @@ prepare() {
 }
 
 build() {
-  cd "${srcdir}/${_srcname}"
+  cd "${srcdir}/linux"
 
   # get kernel version
-  make prepare
+  yes "" | make ${MAKEFLAGS} prepare
 
-  # load configuration
-  # Configure the kernel. Replace the line below with one of your choice.
-  #make menuconfig # CLI menu for configuration
-  #make nconfig # new CLI menu for configuration
-  #make xconfig # X-based configuration
-  #make oldconfig # using old config from previous kernel version
-  # ... or manually edit .config
-
-  # Copy back our configuration (use with new kernel version)
-  #cp ./.config ../${pkgbase}.config
-
-  ####################
-  # stop here
-  # this is useful to configure the kernel
-  #msg "Stopping build"
-  #return 1
-  ####################
-
-  #yes "" | make config
-
-  # build!
+  # build
   make ${MAKEFLAGS} UIMAGE_LOADADDR=0x8000 uImage modules zynq-parallella1-headless.dtb
 }
 
@@ -84,7 +65,7 @@ _package() {
   conflicts=('linux')
   install=${pkgname}.install
 
-  cd "${srcdir}/${_srcname}"
+  cd "${srcdir}/linux"
 
   KARCH=arm
 
@@ -131,7 +112,7 @@ _package-headers() {
 
   install -dm755 "${pkgdir}/usr/lib/modules/${_kernver}"
 
-  cd "${srcdir}/${_srcname}"
+  cd "${srcdir}/linux"
   install -D -m644 Makefile \
     "${pkgdir}/usr/lib/modules/${_kernver}/build/Makefile"
   install -D -m644 kernel/Makefile \
