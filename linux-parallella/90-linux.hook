@@ -2,7 +2,7 @@
 Type = File
 Operation = Install
 Operation = Upgrade
-Target = boot/uImage
+Target = boot/zImage
 Target = usr/lib/initcpio/*
 
 [Action]
