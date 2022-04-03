@@ -276,7 +276,7 @@ _package-headers() {
 
 _package-parallella-headless() {
   pkgdesc="The Linux Kernel - ${_desc} - Adapteva Parallella (headless)"
-  depends=('linux-armv7')
+  depends=('linux-armv7='${pkgver}'-'${pkgrel} 'parallella-fpga-bitstream-headless')
   provides=('linux-armv7-uimage')
   conflicts=('linux-armv7-uimage' 'linux-armv7-rc-uimage')
 
