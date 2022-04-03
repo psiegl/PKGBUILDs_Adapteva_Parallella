@@ -1,15 +1,15 @@
 pkgbase = epiphany-elf-binutils
-	pkgdesc = A set of programs to assemble and manipulate binary and object files for the Adapteva Epiphany target
-	pkgver = 2.33.1
+	pkgver = 2.38
 	pkgrel = 1
-	url = http://www.gnu.org/software/binutils/
-	arch = i686
+	pkgdesc = A set of programs to assemble and manipulate binary and object files for the Adapteva Epiphany target
 	arch = x86_64
+	arch = i686
 	arch = armv7h
+	url = http://www.gnu.org/software/binutils/
 	license = GPL
-	depends = zlib
-	source = ftp://ftp.gnu.org/gnu/binutils/binutils-2.33.1.tar.bz2
-	sha1sums = 332c7df7e1830c1e756cf4a5542a7952200210c1
+	depends = glibc zlib libelf
+	source = ftp://ftp.gnu.org/gnu/binutils/binutils-2.38.tar.lz
+	sha1sums = 221e5aa4c42b0c9f47f682a36e7ef31713c22442
 
 pkgname = epiphany-elf-binutils
 
