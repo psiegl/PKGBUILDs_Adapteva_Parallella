@@ -6,7 +6,7 @@ pkgname=$_target-gcc
 pkgver=9.2.0
 pkgrel=1
 #_snapshot=9-20200111
-_newlibver=3.1.0
+_newlibver=3.0
 pkgdesc='The GNU Compiler Collection - cross compiler for the Adapteva Epiphany target'
 arch=(i686 x86_64 armv7h)
 url='http://gcc.gnu.org/'
@@ -17,7 +17,7 @@ makedepends=(gmp mpfr)
 options=(!emptydirs !strip staticlibs)
 source=(https://ftp.gnu.org/gnu/gcc/gcc-$pkgver/gcc-$pkgver.tar.xz
 	0001-gcc-fix-security-warnings.patch
-        https://sourceware.org/pub/newlib/newlib-$_newlibver.tar.gz)
+        git+https://github.com/adapteva/epiphany-newlib.git#branch=epiphany-newlib-$_newlibver)
 sha256sums=('SKIP'
 	    'SKIP'
             'SKIP')
@@ -33,8 +33,8 @@ prepare() {
   echo $pkgver > gcc/BASE-VER
 
   # Move newlib and libgloss to gcc source directory
-  mv "$srcdir"/newlib-$_newlibver/newlib "$srcdir/$_basedir"
-  mv "$srcdir"/newlib-$_newlibver/libgloss "$srcdir/$_basedir"
+  mv "$srcdir"/epiphany-newlib/newlib "$srcdir/$_basedir"
+  mv "$srcdir"/epiphany-newlib/libgloss "$srcdir/$_basedir"
 
   # hack! - some configure tests for header files using "$CPP $CPPFLAGS"
   sed -i "/ac_cpp=/s/\$CPPFLAGS/\$CPPFLAGS -O2/" "$srcdir"/$_basedir/{libiberty,gcc}/configure
