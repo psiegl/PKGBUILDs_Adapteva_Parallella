@@ -3,9 +3,9 @@
 
 _target=epiphany-elf
 pkgname=$_target-gcc
-pkgver=9.2
+pkgver=9.2.0
 pkgrel=1
-_snapshot=9-20200111
+#_snapshot=9-20200111
 _newlibver=3.1.0
 pkgdesc='The GNU Compiler Collection - cross compiler for the Adapteva Epiphany target'
 arch=(i686 x86_64 armv7h)
@@ -15,17 +15,18 @@ depends=($_target-binutils libmpc)
 makedepends=(gmp mpfr)
 #checkdepends=(dejagnu)
 options=(!emptydirs !strip staticlibs)
-source=(#ftp://gcc.gnu.org/pub/gcc/releases/gcc-$pkgver/gcc-$pkgver.tar.bz2
-        ftp://gcc.gnu.org/pub/gcc/snapshots/$_snapshot/gcc-$_snapshot.tar.xz
-        ftp://sourceware.org/pub/newlib/newlib-$_newlibver.tar.gz)
-sha256sums=('f3963e5f92b5f79cd8316dd8c6c334e3992bbda0ee545914bd7305c3137a29f5'
-            'fb4fa1cc21e9060719208300a61420e4089d6de6ef59cf533b57fe74801d102a')
+source=(https://ftp.gnu.org/gnu/gcc/gcc-$pkgver/gcc-$pkgver.tar.xz
+	0001-gcc-fix-security-warnings.patch
+        https://sourceware.org/pub/newlib/newlib-$_newlibver.tar.gz)
+sha256sums=('SKIP'
+	    'SKIP'
+            'SKIP')
 
-if [ -n "$_snapshot" ]; then
-  _basedir=gcc-$_snapshot
-else
+#if [ -n "$_snapshot" ]; then
+#  _basedir=gcc-$_snapshot
+#else
   _basedir=gcc-$pkgver
-fi
+#fi
 
 prepare() {
   cd "$srcdir/$_basedir"
@@ -37,6 +38,8 @@ prepare() {
 
   # hack! - some configure tests for header files using "$CPP $CPPFLAGS"
   sed -i "/ac_cpp=/s/\$CPPFLAGS/\$CPPFLAGS -O2/" "$srcdir"/$_basedir/{libiberty,gcc}/configure
+
+  patch -p0 < ../0001-gcc-fix-security-warnings.patch
 }
 
 build() {
